@@ -5,6 +5,23 @@ function Course() {
             return this.holes[this.current-1]
         },
         holes: [
+            /*
+        {
+            name:'Test',
+            par:2,
+            strokes:0,
+            complete:false,
+            build:function(golf) {
+                golf.addBall(0,2,0);
+                var t = 60;
+                for (var i=1; i<5; i++) {
+                    var x = i % 2 * t
+                    var z = Math.round((i-2)/2) * t
+                    golf.addGround(x,0,z,{mesh:"deformed" + i});
+                }
+            }
+        },
+            */
         {
             name:'Bird\'s Eye',
             par:2,

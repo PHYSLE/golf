@@ -1,7 +1,9 @@
 import * as BABYLON from '@babylonjs/core/Legacy/legacy';
 import HavokPhysics from "@babylonjs/havok";
-//import "@babylonjs/loaders/glTF";
-import { registerBuiltInLoaders } from "@babylonjs/loaders/dynamic";
+import "@babylonjs/core/Physics/physicsEngineComponent"
+import "@babylonjs/loaders/glTF";
+//import { registerBuiltInLoaders } from "@babylonjs/loaders/dynamic";
+//registerBuiltInLoaders();
 
 function Game() {
   const game = {
@@ -16,7 +18,7 @@ function Game() {
           damping: .64,           // reduce velocity of the ball
           friction: .75,          // the friction of the ball
           gravity: -9.8,          // gravity of scene
-          impulseModifier: 5,     // velocity of impulse per ms of swing
+          impulseModifier: 5,     // velocity modifier of impulse per ms of swing
           maxImpulse: 230,        // max velocity of impulse
           tileSize: 60,           // size of grid tile
           bumperHeight: 15,       // height of bumpers
@@ -71,7 +73,7 @@ function Game() {
       aimLine: [],
       renderAimLine: false,
       init: async function() {
-          registerBuiltInLoaders();
+          
           const canvas = document.getElementById("canvas");
 
           this.engine = new BABYLON.Engine(canvas, true, {
