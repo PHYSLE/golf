@@ -23,6 +23,30 @@ function Course() {
         },
             */
         {
+            name:'Bridge',
+            par:2,
+            strokes:0,
+            complete:false,
+            build:function(golf) {
+              golf.addBall(30,2,100);
+              golf.addCorner(0,0,100,{rotation:-Math.PI/2});
+              golf.addCorner(60,0,100,{rotation:Math.PI});
+              golf.addGround(0,0,145,{bumpers:"1001",mesh:"short"});
+              golf.addGround(60,0,145,{bumpers:"1100",mesh:"short"});
+
+              golf.addBarrier(30,-2,155,{shape:"box",size:24,rotation:{x:-.476}});
+              golf.addBarrier(30,3.2,176,{shape:"box",size:24});
+              golf.addBarrier(30,3.2,190,{shape:"box",size:24});
+              golf.addBarrier(30,-2,211,{shape:"box",size:24,rotation:{x:.476}});
+
+              golf.addCorner(0,0,235,{rotation:-Math.PI/2});
+              golf.addCorner(0,0,295,{rotation:0});
+              golf.addGround(60,0,235,{bumpers:"0110"});
+              var m = golf.addGround(60,0,295,{bumpers:"1100"});
+              golf.addHole(m);
+            }
+        },
+        {
             name:'Bird\'s Eye',
             par:2,
             strokes:0,
