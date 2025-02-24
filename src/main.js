@@ -9,8 +9,7 @@ window.addEventListener('load', function() {
 var shotButton = document.getElementById('shotButton');
 var scoreCard = document.getElementById('scoreCard');
 var scoreDisplay = document.getElementById('scoreDisplay');
-var golf = new Game();
-var course = new Course();
+
 
 function updateScoreCard(course) {
     var rows = '<tr><th>Hole</th><th style="width:60px;">Par</th><th style="width:60px;">Player</th></tr>';
@@ -27,41 +26,32 @@ function updateScoreCard(course) {
 }
 
 function loadNext() {
+    golf.clear();
     shotButton.innerHTML = '';
     course.current++;
-
-    //console.log('current course  = ' + course.current)
-    if (golf.scene) {
-        golf.scene.dispose();
-    }
-    if (golf.engine) {
-        golf.engine.dispose();
-    }
     scoreDisplay.firstChild.innerHTML = 'Stroke 0';
-    golf = new Game();
-
-    golf.init().then(() => {
-        course.currentHole.build(golf);
-        golf.addEventListener("stop", function() {
-            shotButton.style.borderStyle = 'solid'
-        });
-
-        golf.addEventListener("hole", function() {
-            golf.paused = true;
-            course.currentHole.complete = true;
-            scoreCard.style.display = 'block'
-            shotButton.innerHTML = '<br />Next';
-        });
-
-        golf.run();
-        scoreCard.style.display = 'none';
-    });
+    scoreCard.style.display = 'none';
+    course.currentHole.build(golf);
+    golf.impulseTime = 0;
+    golf.paused = false;
 }
 
+golf.init().then(() => {
+    golf.run();
+    scoreCard.style.display = 'none';
+    loadNext();
+    updateScoreCard(course);
+});
 
-loadNext();
-updateScoreCard(course);
 
+
+
+golf.addEventListener("hole", function() {
+    golf.paused = true;
+    course.currentHole.complete = true;
+    scoreCard.style.display = 'block'
+    shotButton.innerHTML = '<br />Next';
+});
 golf.addEventListener("stop", function() {
     shotButton.style.borderStyle = 'solid'
 });

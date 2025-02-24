@@ -51,6 +51,7 @@ function Game() {
               return (Math.abs(v.x) + Math.abs(v.y) + Math.abs(v.z));
           }
       },
+      disposables:[],
       strikePosition: new BABYLON.Vector3(),
       impulseTime: 0,
       getImpulseAmount: function() {
@@ -212,6 +213,12 @@ function Game() {
               this.ball.body.applyImpulse(impulse, this.ball.mesh.position);
           }
       },
+      clear: function() {
+        for(var i=0; i<this.disposables.length;i++) {
+            this.disposables[i].dispose();
+        }
+        this.impulseTime = 0;
+      },
       run: function() {
           var _self = this;
           this.scene.actionManager = new BABYLON.ActionManager(this.scene);
@@ -267,7 +274,7 @@ function Game() {
           for(let i=0; i<this.shadows.length; i++) {
               this.shadows[i].getShadowMap().renderList.push(ball);
           }
-
+          this.disposables.push(ball);
           return ball;
       },
       addBumper: function(x, y, z, options) {
@@ -285,6 +292,7 @@ function Game() {
           for(let i=0; i<this.shadows.length; i++) {
               this.shadows[i].getShadowMap().renderList.push(bumper);
           }
+          this.disposables.push(bumper);
           return bumper;
       },
       addGround: function(x, y, z, options={}) {
@@ -371,6 +379,7 @@ function Game() {
                     }
                 }
             }
+            this.disposables.push(ground);
             return ground;
       },
       addCorner: function(x, y, z, options) {
@@ -422,6 +431,8 @@ function Game() {
           // delete the cylinder and box
           cylinder.dispose();
           box.dispose();
+          this.disposables.push(ground);
+          this.disposables.push(corner);
 
           return ground;
       },
@@ -534,6 +545,7 @@ function Game() {
           for(let i=0; i<this.shadows.length; i++) {
               this.shadows[i].getShadowMap().renderList.push(mesh);
           }
+          this.disposables.push(mesh);
           return mesh;
 
       },
@@ -580,7 +592,8 @@ function Game() {
                 }, "1000");
               },
           ));
-
+          this.disposables.push(trigger);
+          this.disposables.push(hole);
           return hole;
       },
       addTunnel(x,y,z,options) {
@@ -662,10 +675,12 @@ function Game() {
                           let impulse = new BABYLON.Vector3(amount * Math.cos(angle), 0, amount * -Math.sin(angle));
                           ball.body.applyImpulse(impulse, ball.mesh.position);
                       }, 1000*secs); // see Total frames
-                  },
-              ));
-          }
+                    },
+                  ));
+                  this.disposables.push(trigger);
+                }
 
+          this.disposables.push(tunnel);
           return tunnel;
       }
 
