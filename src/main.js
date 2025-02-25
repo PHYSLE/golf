@@ -32,7 +32,7 @@ function loadNext() {
     scoreDisplay.firstChild.innerHTML = 'Stroke 0';
     scoreCard.style.display = 'none';
     course.currentHole.build(golf);
-    golf.impulseTime = 0;
+    
     golf.paused = false;
 }
 

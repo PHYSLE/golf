@@ -22,7 +22,7 @@ function Game() {
           maxImpulse: 230,        // max velocity of impulse
           tileSize: 60,           // size of grid tile
           bumperHeight: 15,       // height of bumpers
-          aimLineSegments: 10,    // number of line segments in aim line
+          aimLineSegments: 16,    // number of line segments in aim line
           aimLineModifier: 1.3,   // divisor of line per swing impulse
           exitVelocity: 120       // default velocity of ball leaving tunnel
       },
@@ -217,6 +217,7 @@ function Game() {
         for(var i=0; i<this.disposables.length;i++) {
             this.disposables[i].dispose();
         }
+        this.disposables = [];
         this.impulseTime = 0;
       },
       run: function() {
@@ -491,21 +492,21 @@ function Game() {
                 physicsShape = BABYLON.PhysicsShapeType.MESH;
               break;
               case "bridge":
-                var width = 24;
+                var w = this.globals.tileSize/2;
                 var slope1 = BABYLON.MeshBuilder.CreateBox("slope1", {
-                    height:this.globals.bumperHeight/2, width: 24, depth: width
+                    height:this.globals.bumperHeight/2, width: w, depth: 24
                 }, this.scene);
                 slope1.position = new BABYLON.Vector3(x, y-2, z-options.size/2-8.9);
                 slope1.rotation = new BABYLON.Vector3(-.477, 0, 0);
 
                 var slope2 = BABYLON.MeshBuilder.CreateBox("slope2", {
-                    height:this.globals.bumperHeight/2, width: 24, depth: width
+                    height:this.globals.bumperHeight/2, width: w, depth: 24
                 }, this.scene);
                 slope2.position = new BABYLON.Vector3(x, y-2, z+options.size/2+8.9);
                 slope2.rotation = new BABYLON.Vector3(.477, 0, 0);
 
                 var top = BABYLON.MeshBuilder.CreateBox("box", {
-                    height:this.globals.bumperHeight/2, width: width, depth: options.size
+                    height:this.globals.bumperHeight/2, width: w, depth: options.size
                 }, this.scene);
                 top.position = new BABYLON.Vector3(x, y+3.1, z);
 

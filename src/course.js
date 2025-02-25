@@ -134,25 +134,25 @@ function Course() {
             strokes:0,
             complete:false,
             build:function(golf) {
-              golf.addBall(25,2,110);
-              golf.addCorner(0,0,102,{rotation:-Math.PI/2});
-              golf.addCorner(60,0,102,{rotation:Math.PI});
-              golf.addGround(0,0,147,{bumpers:"1001",mesh:"short"});
-              golf.addGround(60,0,147,{bumpers:"1100",mesh:"short"});
+              golf.addBall(25,2,114);
+              golf.addCorner(0,0,106,{rotation:-Math.PI/2});
+              golf.addCorner(60,0,106,{rotation:Math.PI});
+              golf.addGround(0,0,151,{bumpers:"1001",mesh:"short"});
+              golf.addGround(60,0,151,{bumpers:"1100",mesh:"short"});
 
-              golf.addBarrier(30,0,183,{shape:"bridge",size:42});
-              golf.addBarrier(110,0,263,{shape:"bridge",size:42,rotation:{y:Math.PI/2}});
+              golf.addBarrier(30,0,181,{shape:"bridge",size:42});
+              golf.addBarrier(106,0,258,{shape:"bridge",size:42,rotation:{y:Math.PI/2}});
 
 
-              golf.addGround(0,0,235,{bumpers:"0011"});
-              golf.addCorner(0,0,295,{rotation:0});
-              golf.addGround(60,0,235,{bumpers:"0110"});
-              golf.addGround(60,0,295,{bumpers:"1100"});
+              golf.addGround(0,0,228,{bumpers:"0011"});
+              golf.addCorner(0,0,288,{rotation:0});
+              golf.addGround(60,0,228,{bumpers:"0110"});
+              golf.addGround(60,0,288,{bumpers:"1100"});
 
-              golf.addGround(145,0,235,{bumpers:"0011",mesh:"narrow"});
-              golf.addGround(145,0,295,{bumpers:"1001",mesh:"narrow"});
-              golf.addCorner(190,0,235,{rotation:Math.PI});
-              var m = golf.addCorner(190,0,295,{rotation:Math.PI/2});
+              golf.addGround(137,0,228,{bumpers:"0011",mesh:"narrow"});
+              golf.addGround(137,0,288,{bumpers:"1001",mesh:"narrow"});
+              golf.addCorner(182,0,228,{rotation:Math.PI});
+              var m = golf.addCorner(182,0,288,{rotation:Math.PI/2});
               golf.addHole(m);
             }
         },
