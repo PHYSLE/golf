@@ -94,7 +94,7 @@ function Game() {
 
           // create a camera
           this.camera = new BABYLON.ArcRotateCamera("camera", Math.PI/4, Math.PI/4, 10, new BABYLON.Vector3(0,0,0));
-          this.camera.setPosition(new BABYLON.Vector3(0, 200, -160));
+          this.camera.setPosition(new BABYLON.Vector3(0, 140, -100));
           this.camera.attachControl(canvas, true);
 
 
@@ -106,7 +106,7 @@ function Game() {
           this.materials.sky = new BABYLON.StandardMaterial("skymat", this.scene);
           this.materials.sky.backFaceCulling = false;
           this.materials.sky.disableLighting = true;
-          this.materials.sky.reflectionTexture = new BABYLON.CubeTexture("/assets/sky/skybox1", this.scene);
+          this.materials.sky.reflectionTexture = new BABYLON.CubeTexture("/assets/sky/skybox", this.scene);
           this.materials.sky.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
 
           const skybox = BABYLON.MeshBuilder.CreateBox("skyBox", { size: 1000.0 }, this.scene);
@@ -219,6 +219,7 @@ function Game() {
         }
         this.disposables = [];
         this.impulseTime = 0;
+        this.camera.setPosition(new BABYLON.Vector3(0, 140, -100));
       },
       run: function() {
           var _self = this;
@@ -563,9 +564,9 @@ function Game() {
 
           // use Constructive Solid Geometry to subtract tube from ground
           // @TODO - use CSG2 instead (CSG2 not working-  Error while creating the CSG: Not manifold)
+          // error is because ground meshes are one sided and CSG2 can't deal
           var groundCSG = BABYLON.CSG.FromMesh(mesh);
           var cylinderCSG = BABYLON.CSG.FromMesh(cylinder);
-
           var hole = groundCSG.subtract(cylinderCSG).toMesh("hole", null, this.scene);
           hole.position = mesh.position;
           hole.material = this.materials.green;
@@ -611,7 +612,7 @@ function Game() {
               subdivisions:1
           }, this.scene);
 
-          cylinder.position = new BABYLON.Vector3(x, y + 3, z - 1); // @todo -
+          cylinder.position = new BABYLON.Vector3(x, y + 3, z - 1);
           cylinder.rotation = new BABYLON.Vector3(Math.PI/2, 0, 0);
 
           var boxCSG = BABYLON.CSG.FromMesh(box);
@@ -683,9 +684,12 @@ function Game() {
 
           this.disposables.push(tunnel);
           return tunnel;
-      }
-
-
+      },
+      addClone: function(x,y,z,mesh) {
+        var clone = mesh.clone("clone");
+        clone.position = new BABYLON.Vector3(x, mesh.position.y, z);
+        this.disposables.push(clone);
+    }
   }
 
   return game;

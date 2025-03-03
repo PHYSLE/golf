@@ -5,7 +5,7 @@ function Course() {
             return this.holes[this.current-1]
         },
         holes: [
-            /*
+           /* 
         {
             name:'Test',
             par:2,
@@ -13,16 +13,49 @@ function Course() {
             complete:false,
             build:function(golf) {
                 golf.addBall(0,2,0);
-                var t = 60;
+                var t = 90;
+                var m = golf.addGround(45,0,45,{mesh:"quarter"})
+                golf.addGround(45,0,0,{mesh:"narrow"});
+                golf.addGround(45,0,90,{mesh:"narrow"});
+
+                golf.addGround(0,0,45,{mesh:"short"});
+                golf.addGround(90,0,45,{mesh:"short"});
                 for (var i=1; i<5; i++) {
                     var x = i % 2 * t
                     var z = Math.round((i-2)/2) * t
                     golf.addGround(x,0,z,{mesh:"deformed" + i});
                 }
-                //golf.addBarrier(60,0,30,{shape:"bridge",size:40});
+                golf.addHole(m);
+
             }
         },
             */
+        {
+            name:'Goose Bumps',
+            par:3,
+            strokes:0,
+            complete:false,
+            build:function(golf) {
+                golf.addBall(55,2,85);
+                
+                golf.addGround(55,0,85,{bumpers:"0110",mesh:"quarter"})
+
+                golf.addGround(10,0,100,{bumpers:"0011"})
+                golf.addGround(40,0,160,{bumpers:"1100"})
+                golf.addGround(-5,0,145,{bumpers:"1001",mesh:"quarter"})
+                golf.addGround(55,0,115,{bumpers:"0110",mesh:"quarter"})
+
+                var m = golf.addGround(-5,0,175,{bumpers:"1001",mesh:"quarter"})
+                var t = 20
+                var b = golf.addBarrier(-5,0,120,{shape:"bump",size:10});
+                for (var i=0; i<12; i++) {
+                    var x = i % 4 * t
+                    var z = Math.round((i-4)/4) * t
+                    golf.addClone(x-5,0,z+120,b);
+                }
+                golf.addHole(m);
+            }
+        },
 
         {
             name:'Bird\'s Eye',
@@ -64,9 +97,11 @@ function Course() {
                 golf.addGround(0,0,160,{bumpers:"0101"});
                 golf.addBarrier(0,0,130,{shape:"circle",size:20});
                 var t = golf.addTunnel(25.5, -14, 160,{rotation:-Math.PI/2});
-                golf.addTunnel(0,0,186, {target: t});
-                golf.addGround(60,-14,160,{bumpers:"1100",mesh:"deformed4"});
-                var m = golf.addGround(60,-14,100,{bumpers:"0111"});
+                golf.addTunnel(0,0,186, {target: t, exitVelocity:40});
+                golf.addGround(60,-14,175,{bumpers:"1100",mesh:"short"});
+                golf.addGround(60,-14,130,{bumpers:"0100",mesh:"deformed4"});
+                golf.addBumper(30,-14,114.5,{half:true, rotation: {y:Math.PI/2}});
+                var m = golf.addGround(60,-14,85,{bumpers:"0111",mesh:"short"});
                 golf.addHole(m);
             }
         },

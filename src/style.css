@@ -94,3 +94,19 @@ td, th {
   padding: 4px;
   border: 1px solid #999;
 }
+
+.icon {
+  z-index:9999;
+  height: 32px;
+  width: 32px;
+  border-radius: 52px;
+  margin-top:10px;
+  margin-right:10px;
+  border: 1px solid #999;
+  display:block;
+  color:#333;
+  text-decoration:none;
+  text-align: center;
+
+  font-size:28px;
+}
