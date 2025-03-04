@@ -265,6 +265,7 @@ function Game() {
           ball.position = new BABYLON.Vector3(x, y, z);
           this.camera.lockedTarget = ball;
           this.ball.mesh = ball;
+          this.strikePosition = new BABYLON.Vector3(x, y, z);
 
           const aggregate = new BABYLON.PhysicsAggregate(ball, BABYLON.PhysicsShapeType.SPHERE, {
               mass: 2,
@@ -688,6 +689,10 @@ function Game() {
       addClone: function(x,y,z,mesh) {
         var clone = mesh.clone("clone");
         clone.position = new BABYLON.Vector3(x, mesh.position.y, z);
+        const aggregate = new BABYLON.PhysicsAggregate(clone, BABYLON.PhysicsShapeType.MESH, {
+            mass: 0,
+            restitution: 0,
+            friction: 0 }, this.scene);
         this.disposables.push(clone);
     }
   }

@@ -19,7 +19,8 @@ h2 {
   font-family: 'PoiretOne';
   font-size:30px;
   font-weight: bold;
-  margin-top: 0px;
+  margin-top: -6px;
+  margin-bottom: 10px;
 }
 
 #canvas {
@@ -100,9 +101,9 @@ td, th {
   height: 32px;
   width: 32px;
   border-radius: 52px;
-  margin-top:10px;
+  margin-top:16px;
   margin-right:10px;
-  border: 1px solid #999;
+  border: 2px solid #333;
   display:block;
   color:#333;
   text-decoration:none;

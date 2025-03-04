@@ -93,6 +93,15 @@ shotButton.addEventListener("mouseup", function() {
     }
 });
 
+document.getElementById('reset').addEventListener("click", function() {
+    console.log('reset');
+    golf.ball.mesh.setAbsolutePosition(golf.strikePosition);
+    golf.ball.stop();
+    golf.paused = false;
+    course.currentHole.strokes--;
+    scoreCard.style.display = 'none';
+});
+
 document.getElementById('x').addEventListener("click", function() {
     golf.paused = false;
     scoreCard.style.display = 'none';
