@@ -106,7 +106,7 @@ function Game() {
           this.materials.sky = new BABYLON.StandardMaterial("skymat", this.scene);
           this.materials.sky.backFaceCulling = false;
           this.materials.sky.disableLighting = true;
-          this.materials.sky.reflectionTexture = new BABYLON.CubeTexture("/assets/sky/skybox", this.scene);
+          this.materials.sky.reflectionTexture = new BABYLON.CubeTexture("/assets/sky/skybox1", this.scene);
           this.materials.sky.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
 
           const skybox = BABYLON.MeshBuilder.CreateBox("skyBox", { size: 1000.0 }, this.scene);
