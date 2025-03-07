@@ -93,16 +93,30 @@ function Game() {
           this.shadows.push(new BABYLON.ShadowGenerator(1024, light2));
 
           // create a camera
+
           this.camera = new BABYLON.ArcRotateCamera("camera", Math.PI/4, Math.PI/4, 10, new BABYLON.Vector3(0,0,0));
           this.camera.setPosition(new BABYLON.Vector3(0, 140, -100));
           this.camera.attachControl(canvas, true);
+          // @todo - mobile
+          // https://forum.babylonjs.com/t/arcrotate-camera-on-mobile/32650
+            
+          //this.camera.wheelPrecision = 50;
+          //this.camera.pinchPrecision = 700;
+          //this.camera.useNaturalPinchZoom = true;
+          this.camera.panningSensibility = 1000;
+          this.camera.allowUpsideDown = false;
+          this.camera.lowerRadiusLimit = 0.01;
+          this.camera.minZ = 0.030;
+          this.camera.panningInertia = 0.5
 
+            
 
           // enable Havok
           const havok = await HavokPhysics();
           this.scene.enablePhysics(new BABYLON.Vector3(0, this.globals.gravity, 0), new BABYLON.HavokPlugin(true, havok));
 
           // create materials
+          /*
           this.materials.sky = new BABYLON.StandardMaterial("skymat", this.scene);
           this.materials.sky.backFaceCulling = false;
           this.materials.sky.disableLighting = true;
@@ -112,6 +126,7 @@ function Game() {
           const skybox = BABYLON.MeshBuilder.CreateBox("skyBox", { size: 1000.0 }, this.scene);
           skybox.material = this.materials.sky;
           skybox.infiniteDistance = true;
+          */
 
           this.materials.green = new BABYLON.PBRMaterial('greenmat',this.scene);
           this.materials.green.albedoTexture = new BABYLON.Texture('/assets/green.jpg',this.scene);
