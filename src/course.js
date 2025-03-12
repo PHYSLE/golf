@@ -42,7 +42,7 @@ function Course() {
                 golf.addGround(0,0,100,{bumpers:"0011"});
                 golf.addCorner(0,0,160);
                 golf.addCorner(60,0,100,{rotation:Math.PI});
-                golf.addBarrier(30,0,130,{shape:"circle",size:20});
+                //golf.addBarrier(30,0,130,{shape:"circle",size:20});
                 var m = golf.addGround(60,0,160,{bumpers:"1100"});
                 golf.addHole(m);
             }

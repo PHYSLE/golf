@@ -67,8 +67,8 @@ function Game() {
       },
       meshes: {
         deformed: null,
-        bumperRoot: null, // move to meshes
-        bumperHalf: null, // "
+        bumperRoot: null,
+        bumperHalf: null, 
       },
       shadows:[],
       aimLine: [],
