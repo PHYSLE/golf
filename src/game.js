@@ -68,7 +68,7 @@ function Game() {
       meshes: {
         deformed: null,
         bumperRoot: null,
-        bumperHalf: null, 
+        bumperHalf: null,
       },
       shadows:[],
       aimLine: [],
@@ -99,7 +99,7 @@ function Game() {
           this.camera.attachControl(canvas, true);
           // @todo - mobile
           // https://forum.babylonjs.com/t/arcrotate-camera-on-mobile/32650
-            
+
           //this.camera.wheelPrecision = 50;
           //this.camera.pinchPrecision = 700;
           //this.camera.useNaturalPinchZoom = true;
@@ -109,7 +109,7 @@ function Game() {
           this.camera.minZ = 0.030;
           this.camera.panningInertia = 0.5
 
-            
+
 
           // enable Havok
           const havok = await HavokPhysics();
@@ -129,7 +129,7 @@ function Game() {
           */
 
           this.materials.green = new BABYLON.PBRMaterial('greenmat',this.scene);
-          this.materials.green.albedoTexture = new BABYLON.Texture('/assets/green.jpg',this.scene);
+          this.materials.green.albedoTexture = new BABYLON.Texture('./assets/green.jpg',this.scene);
           this.materials.green.albedoTexture.uScale = 1;
           this.materials.green.albedoTexture.vScale = 1;
           this.materials.green.metallic = 0;
@@ -154,7 +154,7 @@ function Game() {
           this.meshes.bumperHalf.isVisible = false;
 
           for(let i=1; i<5; i++) {
-              let file = "/assets/ground-tile-deform"+i+".glb";
+              let file = "./assets/ground-tile-deform"+i+".glb";
               let result = await BABYLON.LoadAssetContainerAsync(file, this.scene);
               let rootMesh = result.createRootMesh();
               let children = rootMesh.getChildMeshes();

@@ -9,6 +9,7 @@ var UI = {};
 UI.shotButton = document.getElementById('shotButton');
 UI.scoreCard = document.getElementById('scoreCard');
 UI.scoreDisplay = document.getElementById('scoreDisplay');
+UI.parDisplay = document.getElementById('parDisplay');
 
 var rect = UI.shotButton.getBoundingClientRect();
 UI.shotButtonRadius = (rect.right - rect.left) / 2;
@@ -18,7 +19,7 @@ UI.shotButtonTouch = false;
 UI.useTouchEvents = false;
 
 UI.updateScoreCard = function(course) {
-    var rows = '<tr><th>Hole</th><th style="width:60px;">Par</th><th style="width:60px;">Player</th></tr>';
+    var rows = '<tr><th>Hole</th><th style="width:50px;">Par</th><th style="width:50px;">Player</th></tr>';
     var totals = {par:0, strokes:0};
     for(var i=0; i<course.holes.length; i++) {
         var h = course.holes[i];
@@ -35,10 +36,11 @@ UI.loadNext = function() {
     golf.clear();
     UI.shotButton.innerHTML = '';
     course.current++;
-    UI.scoreDisplay.firstChild.innerHTML = 'Stroke 0';
+    UI.scoreDisplay.innerHTML = 'Stroke 0';
+    UI.parDisplay.innerHTML = 'Par ' + course.currentHole.par;
     UI.scoreCard.style.display = 'none';
     course.currentHole.build(golf);
-    
+
     golf.paused = false;
 }
 
@@ -52,7 +54,7 @@ golf.init().then(() => {
 golf.addEventListener("hole", function() {
     golf.paused = true;
     course.currentHole.complete = true;
-    UI.scoreCard.style.display = 'block'
+    //UI.scoreCard.style.display = 'block'
     UI.shotButton.innerHTML = '<br />Next';
 });
 
@@ -68,8 +70,12 @@ window.addEventListener("resize", function () {
     golf.engine.resize();
 });
 
+document.body.addEventListener("touchstart", function(e) {
+    e.preventDefault(); // prevent selection via long touch
+})
 
-UI.shotButton.addEventListener("touchstart", function() {
+UI.shotButton.addEventListener("touchstart", function(e) {
+    e.preventDefault();
     UI.useTouchEvents = true;
     UI.shotButtonTouch = true;
     if (course.currentHole.complete) {
@@ -82,14 +88,14 @@ UI.shotButton.addEventListener("touchstart", function() {
 });
 
 UI.shotButton.addEventListener("touchmove", function(e) {
-	var t = e.touches[0]; 
+	var t = e.touches[0];
 	var dist = Math.sqrt( Math.pow((t.clientX-UI.shotButtonX), 2) + Math.pow((t.clientY-UI.shotButtonY), 2) );
 
 	if (dist > UI.shotButtonRadius) {
-		UI.shotButtonTouch = false;
-		//console.log('touch exited button');
-        golf.disposeAimLine();
-        golf.renderAimLine = false;
+  		UI.shotButtonTouch = false;
+  		//console.log('touch exited button');
+      golf.disposeAimLine();
+      golf.renderAimLine = false;
 	}
 });
 
@@ -100,9 +106,9 @@ UI.shotButton.addEventListener("touchend", function() {
             golf.strike();
             UI.shotButton.style.borderStyle = 'dashed'
             course.currentHole.strokes++;
-            UI.scoreDisplay.firstChild.innerHTML = 'Stroke ' + course.currentHole.strokes;
+            UI.scoreDisplay.innerHTML = 'Stroke ' + course.currentHole.strokes;
             UI.updateScoreCard(course);
-        }      
+        }
     }
 });
 
@@ -128,9 +134,10 @@ UI.shotButton.addEventListener("mouseup", function() {
         golf.strike();
         UI.shotButton.style.borderStyle = 'dashed'
         course.currentHole.strokes++;
-        UI.scoreDisplay.firstChild.innerHTML = 'Stroke ' + course.currentHole.strokes;
+        console.log(course.currentHole.strokes)
+        UI.scoreDisplay.innerHTML = 'Stroke ' + course.currentHole.strokes;
         UI.updateScoreCard(course);
-    }     
+    }
 });
 
 UI.shotButton.addEventListener("mouseout", function() {
@@ -150,15 +157,19 @@ document.getElementById('reset').addEventListener("click", function() {
     golf.paused = false;
     course.currentHole.strokes--;
     UI.scoreCard.style.display = 'none';
+    UI.shotButton.style.display = 'block';
 });
 
 document.getElementById('x').addEventListener("click", function() {
     golf.paused = false;
     UI.scoreCard.style.display = 'none';
+    UI.shotButton.style.display = 'block';
 });
 
-document.getElementById('scoreDisplay').addEventListener("click", function() {
+document.getElementById('scoreWrapper').addEventListener("click", function() {
+    UI.shotButton.style.display =  scoreCard.style.display == 'block' ? 'block':'none';
     UI.scoreCard.style.display =  scoreCard.style.display == 'block' ? 'none':'block';
+
     golf.paused = scoreCard.style.display == 'block';
 });
 })

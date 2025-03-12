@@ -2,7 +2,7 @@
   font-family: "PoiretOne";
   src:
     local("PoiretOne"),
-    url("/assets/PoiretOne-Regular.ttf"),
+    url("../assets/PoiretOne-Regular.ttf"),
 }
 
 html,
@@ -52,7 +52,7 @@ h2 {
   font-size:26px;
 }
 
-#scoreDisplay {
+#scoreWrapper {
   color:#FFF;
   position: absolute;
   font-family: 'PoiretOne';
@@ -61,9 +61,13 @@ h2 {
   left: 20px;
 }
 
-#scoreDisplay a {
+#scoreWrapper a {
   color:#FFF;
   text-decoration:none;
+}
+
+#parDisplay {
+  font-size:20px;
 }
 
 #scoreCard {
@@ -71,11 +75,11 @@ h2 {
   background-color: #FFF;
   position: absolute;
   font-family: sans-serif;
-  top: 100px;
-  width: 400px;
-  left:calc(50% - 200px);
+  top: 50px;
+  width: 300px;
+  left:calc(50% - 173px);
   padding:20px;
-  background-image: url('/assets/paper.jpg');
+  background-image: url('../assets/paper.jpg');
 }
 
 #scoreCard table {

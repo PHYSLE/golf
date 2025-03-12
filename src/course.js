@@ -5,7 +5,7 @@ function Course() {
             return this.holes[this.current-1]
         },
         holes: [
-           /* 
+           /*
         {
             name:'Test',
             par:2,
@@ -30,7 +30,7 @@ function Course() {
             }
         },
             */
-  
+
 
         {
             name:'Bird\'s Eye',
@@ -42,7 +42,7 @@ function Course() {
                 golf.addGround(0,0,100,{bumpers:"0011"});
                 golf.addCorner(0,0,160);
                 golf.addCorner(60,0,100,{rotation:Math.PI});
-                //golf.addBarrier(30,0,130,{shape:"circle",size:20});
+                golf.addBarrier(30,0,130,{shape:"circle",size:20});
                 var m = golf.addGround(60,0,160,{bumpers:"1100"});
                 golf.addHole(m);
             }
@@ -206,7 +206,7 @@ function Course() {
             complete:false,
             build:function(golf) {
                 golf.addBall(55,2,85);
-                
+
                 golf.addGround(55,0,85,{bumpers:"0110",mesh:"quarter"})
 
                 golf.addGround(10,0,100,{bumpers:"0011"})
