@@ -39,8 +39,12 @@ UI.loadNext = function() {
     UI.scoreDisplay.innerHTML = 'Stroke 0';
     UI.parDisplay.innerHTML = 'Par ' + course.currentHole.par;
     UI.scoreCard.style.display = 'none';
-    course.currentHole.build(golf);
-
+    try {
+        course.currentHole.build(golf);
+    }
+    catch(error) {
+        alert('Could not load hole '+ course.current + '. ' + error)
+    }
     golf.paused = false;
 }
 
@@ -54,8 +58,13 @@ golf.init().then(() => {
 golf.addEventListener("hole", function() {
     golf.paused = true;
     course.currentHole.complete = true;
-    //UI.scoreCard.style.display = 'block'
-    UI.shotButton.innerHTML = '<br />Next';
+    if (course.holes.length == course.current) {
+        UI.scoreCard.style.display = 'block';
+        UI.shotButton.style.display = 'none';
+    }
+    else { 
+        UI.shotButton.innerHTML = '<br />Next';
+    }
 });
 
 golf.addEventListener("stop", function() {

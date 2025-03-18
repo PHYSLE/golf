@@ -16,7 +16,7 @@ function Game() {
           */
           restitution: .55,       // determine how bouncy the ball is
           damping: .64,           // reduce velocity of the ball
-          friction: .75,          // the friction of the ball
+          friction: .5,          // the friction of the ball
           gravity: -9.8,          // gravity of scene
           impulseModifier: 5,     // velocity modifier of impulse per ms of swing
           maxImpulse: 230,        // max velocity of impulse
@@ -83,6 +83,13 @@ function Game() {
               disableWebGL2Support: false });
           this.scene = new BABYLON.Scene(this.engine);
 
+          // enable CSG2/manifold
+          await BABYLON.InitializeCSG2Async();
+          
+          // enable Havok
+          const havok = await HavokPhysics();
+          this.scene.enablePhysics(new BABYLON.Vector3(0, this.globals.gravity, 0), new BABYLON.HavokPlugin(true, havok));
+
           //const light1 = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), this.scene);
           const light1 = new BABYLON.DirectionalLight("light", new BABYLON.Vector3(0, -5, 5), this.scene);
           const light2 = new BABYLON.DirectionalLight("light", new BABYLON.Vector3(5, -4, 5), this.scene);
@@ -111,9 +118,7 @@ function Game() {
 
 
 
-          // enable Havok
-          const havok = await HavokPhysics();
-          this.scene.enablePhysics(new BABYLON.Vector3(0, this.globals.gravity, 0), new BABYLON.HavokPlugin(true, havok));
+          
 
           // create materials
           /*
@@ -429,6 +434,7 @@ function Game() {
           }, this.scene);
 
           cylinder.position = new BABYLON.Vector3(x+this.globals.tileSize/2, y, z-this.globals.tileSize/2);
+          // lighting is not working correctly in CSG2
           var boxCSG = BABYLON.CSG.FromMesh(box);
           var cylinderCSG = BABYLON.CSG.FromMesh(cylinder);
 
@@ -489,23 +495,25 @@ function Game() {
                     width: this.globals.tileSize*2,
                     depth: this.globals.tileSize*2
                 }, this.scene);
-                var y1 = +800;
+
                 box.position = new BABYLON.Vector3(x, y-this.globals.tileSize, z);
                 const ball = BABYLON.MeshBuilder.CreateSphere("ball", {
                     diameter: options.size*2,
-                    segments: 32 }, this.scene);
+                    segments: 16 }, this.scene);
 
                 ball.position = new BABYLON.Vector3(x, y - options.size*.85, z);
-                var boxCSG = BABYLON.CSG.FromMesh(box);
-                var ballCSG = BABYLON.CSG.FromMesh(ball);
+                var boxCSG = BABYLON.CSG2.FromMesh(box);
+                var ballCSG = BABYLON.CSG2.FromMesh(ball);
+                var booleanCSG = ballCSG.subtract(boxCSG);
+
+
+                var mesh = booleanCSG.toMesh("barrier", this.scene, {centerMesh: true});
+
+                //mesh.position = new BABYLON.Vector3(x, y - options.size*.85, z);
+                mesh.position = new BABYLON.Vector3(x, y + ((options.size - options.size*.85)/2), z);
 
                 ball.dispose();
                 box.dispose();
-
-                var mesh = ballCSG.subtract(boxCSG).toMesh("barrier", null, this.scene);
-
-                mesh.position = new BABYLON.Vector3(x, y - options.size*.85, z);
-
                 physicsShape = BABYLON.PhysicsShapeType.MESH;
               break;
               case "bridge":
@@ -527,18 +535,20 @@ function Game() {
                 }, this.scene);
                 top.position = new BABYLON.Vector3(x, y+3.1, z);
 
-                var slope1CSG = BABYLON.CSG.FromMesh(slope1);
-                var slope2CSG = BABYLON.CSG.FromMesh(slope2);
-                var topCSG = BABYLON.CSG.FromMesh(top);
+                var slope1CSG = BABYLON.CSG2.FromMesh(slope1);
+                var slope2CSG = BABYLON.CSG2.FromMesh(slope2);
+                var topCSG = BABYLON.CSG2.FromMesh(top);
+
+
+
+                var mesh = topCSG.add(slope1CSG)
+                mesh = mesh.add(slope2CSG).toMesh("barrier",this.scene, {centerMesh: true});
 
                 slope1.dispose();
                 slope2.dispose();
                 top.dispose();
 
-                var mesh = topCSG.union(slope1CSG)
-                mesh = mesh.union(slope2CSG).toMesh("barrier", null, this.scene);
-
-                mesh.position = new BABYLON.Vector3(x, y+7, z);
+                mesh.position = new BABYLON.Vector3(x, y+2, z);
 
                 physicsShape = BABYLON.PhysicsShapeType.MESH;
                 /*
@@ -579,7 +589,7 @@ function Game() {
           cylinder.position = mesh.position;
 
           // use Constructive Solid Geometry to subtract tube from ground
-          // @TODO - use CSG2 instead (CSG2 not working-  Error while creating the CSG: Not manifold)
+          // can't use CSG2 here -  Error while creating the CSG: Not manifold
           // error is because ground meshes are one sided and CSG2 can't deal
           var groundCSG = BABYLON.CSG.FromMesh(mesh);
           var cylinderCSG = BABYLON.CSG.FromMesh(cylinder);
@@ -615,6 +625,7 @@ function Game() {
           return hole;
       },
       addTunnel(x,y,z,options) {
+        //@TODO - use  CSG2 here
           const box = BABYLON.MeshBuilder.CreateBox("box", {
               width: this.globals.tileSize+1,
               height: this.globals.bumperHeight,
@@ -631,8 +642,8 @@ function Game() {
           cylinder.position = new BABYLON.Vector3(x, y + 3, z - 1);
           cylinder.rotation = new BABYLON.Vector3(Math.PI/2, 0, 0);
 
-          var boxCSG = BABYLON.CSG.FromMesh(box);
-          var cylinderCSG = BABYLON.CSG.FromMesh(cylinder);
+          var boxCSG = BABYLON.CSG2.FromMesh(box);
+          var cylinderCSG = BABYLON.CSG2.FromMesh(cylinder);
           var tunnel = boxCSG.subtract(cylinderCSG).toMesh("tunnel", null, this.scene);
           tunnel.position = new BABYLON.Vector3(x, y, z);
           var rotation = options && options.rotation ? new BABYLON.Vector3(0, options.rotation, 0) : BABYLON.Vector3.Zero();

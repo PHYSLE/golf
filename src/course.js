@@ -1,6 +1,6 @@
 function Course() {
     return {
-        current: 0,
+        current: 6,
         get currentHole() {
             return this.holes[this.current-1]
         },
@@ -167,6 +167,31 @@ function Course() {
             }
         },
         {
+            name:'Pink Flamingo',
+            par:3,
+            strokes:0,
+            complete:false,
+            build:function(golf) {
+                golf.addBall(0,-4,80);
+                golf.addGround(0,-6,75,{bumpers:"0111", mesh:"quarter"});
+
+                golf.addGround(0,1.5,116,{mesh:"narrow",bumpers:"0101",rotation:{x:-.26}});
+                golf.addGround(0,9,174,{mesh:"narrow",bumpers:"0101"})
+                golf.addGround(0,1.5,232,{mesh:"narrow",bumpers:"0101",rotation:{x:+.26}});
+                golf.addCorner(-15,-6,290,{rotation:Math.PI/2});
+                golf.addCorner(-15,-6,290);
+
+                golf.addGround(-30,-6,232.5,{mesh:"narrow",bumpers:"0101"});
+                golf.addCorner(-15,-6,175,{rotation:-Math.PI/2});
+                
+                var t = golf.addTunnel(10.5,-6,175,{rotation:-Math.PI/2})
+                golf.addTunnel(-10.5,-6,175,{rotation:Math.PI/2,target:t, exitVelocity:40})
+                var m = golf.addGround(45,-6,175,{bumpers:"1110"})
+
+                golf.addHole(m);
+            }
+        },
+        {
             name:'Whale Tail',
             par:3,
             strokes:0,
@@ -263,8 +288,8 @@ function Course() {
                 golf.addGround(0,.5,131,{rotation:{x:-.24}});
                 golf.addGround(0,.5,219,{rotation:{x:+.24}});
 
-                golf.addBumper(0,0,190,);
-                golf.addBumper(0,0,160,);
+                golf.addBumper(0,0,190);
+                golf.addBumper(0,0,160);
 
                 golf.addCorner(0,0,246,{rotation:Math.PI/2});
                 golf.addGround(-60,0,246,{bumpers:"1001"});
@@ -354,7 +379,7 @@ function Course() {
                 golf.addCorner(0,0,100,{rotation:-Math.PI/2});
                 golf.addCorner(0,0,160);
                 golf.addCorner(60,0,100,{rotation:Math.PI});
-                golf.addBarrier(30,0,130,{shape:"bump",size:30});
+                golf.addBarrier(30,0,130,{shape:"bump",size:24});
                 var m = golf.addCorner(60,0,160,{rotation:Math.PI/2});
                 golf.addHole(m);
             }
