@@ -538,9 +538,6 @@ function Game() {
                 var slope1CSG = BABYLON.CSG2.FromMesh(slope1);
                 var slope2CSG = BABYLON.CSG2.FromMesh(slope2);
                 var topCSG = BABYLON.CSG2.FromMesh(top);
-
-
-
                 var mesh = topCSG.add(slope1CSG)
                 mesh = mesh.add(slope2CSG).toMesh("barrier",this.scene, {centerMesh: true});
 
@@ -614,10 +611,8 @@ function Game() {
                   trigger: BABYLON.ActionManager.OnIntersectionEnterTrigger,
                   parameter: this.ball
               }, () => {
-                setTimeout(() => {
                   this.ball.stop();
                   this.ball.events.dispatchEvent(new Event('hole'))
-                }, "1000");
               },
           ));
           this.disposables.push(trigger);
@@ -698,7 +693,7 @@ function Game() {
                           ball.stop();
                           ball.mesh.setAbsolutePosition(outlet);
 
-                          console.log('amount='+ amount);
+                          //console.log('amount='+ amount);
 
                           // not sure why the -sin is needed here
                           let impulse = new BABYLON.Vector3(amount * Math.cos(angle), 0, amount * -Math.sin(angle));

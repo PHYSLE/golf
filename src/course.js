@@ -1,6 +1,6 @@
 function Course() {
     return {
-        current: 6,
+        current: 0,
         get currentHole() {
             return this.holes[this.current-1]
         },
@@ -168,7 +168,7 @@ function Course() {
         },
         {
             name:'Pink Flamingo',
-            par:3,
+            par:4,
             strokes:0,
             complete:false,
             build:function(golf) {
@@ -245,7 +245,7 @@ function Course() {
                 for (var i=1; i<12; i++) {
                     var x = i % 4 * t
                     var z = Math.round((i-2)/4) * t
-                    console.log(x-5,0,z+120)
+                    //console.log(x-5,0,z+120)
                     golf.addClone(x-5,0,z+100,b);
                 }
 

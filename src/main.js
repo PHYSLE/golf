@@ -32,10 +32,13 @@ UI.updateScoreCard = function(course) {
     document.getElementById('scoreTable').innerHTML = rows;
 }
 
-UI.loadNext = function() {
+UI.loadNext = async function() {
     golf.clear();
+
+
     UI.shotButton.innerHTML = '';
     course.current++;
+    console.log('hole=' + course.current)
     UI.scoreDisplay.innerHTML = 'Stroke 0';
     UI.parDisplay.innerHTML = 'Par ' + course.currentHole.par;
     UI.scoreCard.style.display = 'none';
@@ -45,6 +48,7 @@ UI.loadNext = function() {
     catch(error) {
         alert('Could not load hole '+ course.current + '. ' + error)
     }
+
     golf.paused = false;
 }
 
@@ -56,8 +60,16 @@ golf.init().then(() => {
 });
 
 golf.addEventListener("hole", function() {
-    golf.paused = true;
+    console.log("hole event")
+    if (golf.paused) {
+        // fix issue with multiple hole events?
+        console.log("duplicate hole event")
+        return;
+    }
+
     course.currentHole.complete = true;
+    golf.paused = true;
+
     if (course.holes.length == course.current) {
         UI.scoreCard.style.display = 'block';
         UI.shotButton.style.display = 'none';
@@ -80,7 +92,7 @@ window.addEventListener("resize", function () {
 });
 
 document.body.addEventListener("touchstart", function(e) {
-    e.preventDefault(); // prevent selection via long touch
+    e.preventDefault(); // should prevent selection via long touch?
 })
 
 UI.shotButton.addEventListener("touchstart", function(e) {
@@ -103,8 +115,8 @@ UI.shotButton.addEventListener("touchmove", function(e) {
 	if (dist > UI.shotButtonRadius) {
   		UI.shotButtonTouch = false;
   		//console.log('touch exited button');
-      golf.disposeAimLine();
-      golf.renderAimLine = false;
+        golf.disposeAimLine();
+        golf.renderAimLine = false;
 	}
 });
 
@@ -143,7 +155,7 @@ UI.shotButton.addEventListener("mouseup", function() {
         golf.strike();
         UI.shotButton.style.borderStyle = 'dashed'
         course.currentHole.strokes++;
-        console.log(course.currentHole.strokes)
+
         UI.scoreDisplay.innerHTML = 'Stroke ' + course.currentHole.strokes;
         UI.updateScoreCard(course);
     }
@@ -161,12 +173,16 @@ UI.shotButton.addEventListener("dragstart", function(e) {
 
 // click seems to respond to touch or mouse
 document.getElementById('reset').addEventListener("click", function() {
+    //@TODO - mulligan
+    /*
     golf.ball.mesh.setAbsolutePosition(golf.strikePosition);
     golf.ball.stop();
     golf.paused = false;
     course.currentHole.strokes--;
     UI.scoreCard.style.display = 'none';
     UI.shotButton.style.display = 'block';
+    */
+   document.location='index.html';
 });
 
 document.getElementById('x').addEventListener("click", function() {

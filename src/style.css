@@ -13,6 +13,12 @@ body {
   margin: 0;
   padding: 0;
   background-color:#444;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  -moz-user-select: -moz-none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 h2 {
