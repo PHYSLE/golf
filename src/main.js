@@ -17,6 +17,39 @@ UI.shotButtonX = rect.left + UI.shotButtonRadius;
 UI.shotButtonY = rect.top + UI.shotButtonRadius;
 UI.shotButtonTouch = false;
 UI.useTouchEvents = false;
+UI.persistence = {current:[]}
+
+UI.getCookie = function(name) {
+    var nameEQ = "_phy_mp=";
+    var cookies = document.cookie.split(';');
+	var val = null;
+    for(var i=0; i < cookies.length;i++) {
+        var c = cookies[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) {
+			val = c.substring(nameEQ.length,c.length);
+			break;
+		}
+    }
+
+    return val ? atob(val) : null;
+}
+
+UI.setCookie = function (clear=false) {
+    var days=365;
+	var d = new Date();
+    var data = {current:[]};
+    if (!clear) {
+        for(var i=0; i<course.holes.length; i++) {
+            if (course.holes[i].complete) {
+                data.current.push(course.holes[i].strokes)
+            }
+        }
+    }
+    var value = JSON.stringify(data);
+	d.setTime(d.getTime() + (days*24*60*60*1000));
+	document.cookie = ("_phy_mp=" + btoa(value) + '; expires=' + d.toUTCString() + "; path=/");
+};
 
 UI.updateScoreCard = function(course) {
     var rows = '<tr><th>Hole</th><th style="width:50px;">Par</th><th style="width:50px;">Player</th></tr>';
@@ -34,7 +67,6 @@ UI.updateScoreCard = function(course) {
 
 UI.loadNext = async function() {
     golf.clear();
-
 
     UI.shotButton.innerHTML = '';
     course.current++;
@@ -55,6 +87,18 @@ UI.loadNext = async function() {
 golf.init().then(() => {
     golf.run();
     UI.scoreCard.style.display = 'none';
+    var c = UI.getCookie();
+    console.log("cookie json=" + c);
+    if (c) UI.persistence = JSON.parse(c);
+
+    if (UI.persistence && UI.persistence.current.length > 0) {
+        for(var i=0; i<UI.persistence.current.length; i++) {
+            var hole = course.holes[i];
+            hole.strokes = UI.persistence.current[i];
+            hole.complete = true;
+        }
+        course.current = UI.persistence.current.length
+    }
     UI.loadNext();
     UI.updateScoreCard(course);
 });
@@ -69,6 +113,7 @@ golf.addEventListener("hole", function() {
 
     course.currentHole.complete = true;
     golf.paused = true;
+    UI.setCookie();
 
     if (course.holes.length == course.current) {
         UI.scoreCard.style.display = 'block';
@@ -182,6 +227,7 @@ document.getElementById('reset').addEventListener("click", function() {
     UI.scoreCard.style.display = 'none';
     UI.shotButton.style.display = 'block';
     */
+   UI.setCookie(true);
    document.location='index.html';
 });
 

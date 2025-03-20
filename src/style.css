@@ -100,9 +100,9 @@ h2 {
   text-decoration:none;
 }
 
-td, th {
-  font-size: 14px;
-  padding: 4px;
+th, td {
+  font-size: 13px;
+  padding: 3px;
   border: 1px solid #999;
 }
 
@@ -118,6 +118,5 @@ td, th {
   color:#333;
   text-decoration:none;
   text-align: center;
-
   font-size:28px;
 }
