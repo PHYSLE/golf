@@ -103,13 +103,22 @@ h2 {
 th, td {
   font-size: 13px;
   padding: 3px;
-  border: 1px solid #999;
+  border: 2px solid #000;
+  font-weight: bold;
+}
+
+th {
+  font-weight: bolder;
+}
+
+.icons {
+  display:flex;
 }
 
 .icon {
   z-index:9999;
-  height: 32px;
-  width: 32px;
+  height: 28px;
+  width: 28px;
   border-radius: 52px;
   margin-top:16px;
   margin-right:10px;
@@ -118,5 +127,10 @@ th, td {
   color:#333;
   text-decoration:none;
   text-align: center;
-  font-size:28px;
+  font-size:24px; /*28px*/
+  font-family: monospace;
+}
+
+#clear {
+  margin-left:170px;
 }

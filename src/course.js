@@ -384,6 +384,7 @@ function Course() {
                 golf.addHole(m);
             }
         }
+
       ]
     }
 }
