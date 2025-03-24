@@ -17,7 +17,7 @@ UI.shotButtonX = rect.left + UI.shotButtonRadius;
 UI.shotButtonY = rect.top + UI.shotButtonRadius;
 UI.shotButtonTouch = false;
 UI.useTouchEvents = false;
-UI.persistence = {current:[],best:[]}
+UI.persistence = {current:[],best:[],mulligans:0}
 
 UI.getCookie = function(name) {
     var nameEQ = "_phy_mp=";
@@ -38,7 +38,10 @@ UI.getCookie = function(name) {
 UI.setCookie = function (reset=false,hard=false) {
     var days=365;
 	var d = new Date();
-    var data = hard ? {current:[],best:[]} : {current:[],best:UI.persistence.best};
+    var data = {current:[],best:[],mulligans:0};
+    if (!hard) {
+        data = {current:[],best:UI.persistence.best,mulligans:UI.persistence.mulligans};
+    }
     if (!reset) {
         for(var i=0; i<course.holes.length; i++) {
             if (course.holes[i].complete) {
@@ -83,7 +86,7 @@ UI.loadNext = async function() {
 
     UI.shotButton.innerHTML = '';
     course.current++;
-    console.log('hole=' + course.current)
+    //console.log('hole=' + course.current)
     UI.scoreDisplay.innerHTML = 'Stroke 0';
     UI.parDisplay.innerHTML = 'Par ' + course.currentHole.par;
     UI.scoreCard.style.display = 'none';
@@ -101,7 +104,7 @@ golf.init().then(() => {
     golf.run();
     UI.scoreCard.style.display = 'none';
     var c = UI.getCookie();
-    console.log("cookie json=" + c);
+    //console.log("cookie json=" + c);
     if (c) UI.persistence = JSON.parse(c);
 
     if (UI.persistence && UI.persistence.current.length > 0) {
@@ -114,16 +117,25 @@ golf.init().then(() => {
             }
             course.current = UI.persistence.current.length
         }
+        if (UI.persistence.mulligans == 0) {
+            document.getElementById('back').style.borderStyle = 'dashed';
+            document.getElementById('mulligans').innerHTML = ''
+        }
+        else {
+            document.getElementById('mulligans').innerHTML = 'X'+UI.persistence.mulligans
+        }
+    }
+    if (course.current == 0) {
+        UI.persistence.mulligans = course.mulligans;
     }
     UI.loadNext();
     UI.updateScoreCard(course);
 });
 
 golf.addEventListener("hole", function() {
-    console.log("hole event")
     if (golf.paused) {
         // fix issue with multiple hole events?
-        console.log("duplicate hole event")
+        // console.log("duplicate hole event")
         return;
     }
 
@@ -260,12 +272,24 @@ document.getElementById('reset').addEventListener("click", function() {
 });
 
 document.getElementById('back').addEventListener("click", function() {
-    golf.ball.mesh.setAbsolutePosition(golf.strikePosition);
-    golf.ball.stop();
-    golf.paused = false;
-    course.currentHole.strokes--;
-    UI.scoreCard.style.display = 'none';
-    UI.shotButton.style.display = 'block';
+    if (UI.persistence.mulligans > 0) {
+        golf.ball.mesh.setAbsolutePosition(golf.strikePosition);
+        golf.ball.stop();
+        golf.paused = false;
+        course.currentHole.strokes--;
+        UI.persistence.mulligans--;
+        UI.scoreCard.style.display = 'none';
+        UI.shotButton.style.display = 'block';
+        
+        if (UI.persistence.mulligans == 0) {
+            document.getElementById('back').style.borderStyle = 'dashed';
+            document.getElementById('mulligans').innerHTML = ''
+        }
+        else {
+            document.getElementById('mulligans').innerHTML = 'X'+UI.persistence.mulligans
+        }
+        UI.setCookie();
+    }
 });
 
 document.getElementById('clear').addEventListener("click", function() {

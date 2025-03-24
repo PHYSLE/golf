@@ -1,6 +1,7 @@
 function Course() {
     return {
         current: 0,
+        mulligans: 2,
         get currentHole() {
             return this.holes[this.current-1]
         },

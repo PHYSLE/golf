@@ -103,7 +103,7 @@ h2 {
 th, td {
   font-size: 13px;
   padding: 3px;
-  border: 2px solid #000;
+  border: 2px solid #333;
   font-weight: bold;
 }
 
@@ -132,6 +132,7 @@ th {
 }
 
 #clear {
-  margin-left:180px;
+  /*margin-left:180px;*/
+  margin-left:145px;
   margin-right:0px;
 }
