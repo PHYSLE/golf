@@ -591,9 +591,13 @@ function Game() {
           var groundCSG = BABYLON.CSG.FromMesh(mesh);
           var cylinderCSG = BABYLON.CSG.FromMesh(cylinder);
           var hole = groundCSG.subtract(cylinderCSG).toMesh("hole", null, this.scene);
+
+          
           hole.position = mesh.position;
-          hole.material = this.materials.green;
-          hole.receiveShadows = true;
+          hole.material = mesh.material;
+          if (mesh.name == "ground") {
+            hole.receiveShadows = true;
+          }
 
           const aggregate = new BABYLON.PhysicsAggregate(hole, BABYLON.PhysicsShapeType.MESH, {
               mass: 0,
@@ -604,7 +608,9 @@ function Game() {
           mesh.dispose(); // delete the original mesh
 
           const trigger = BABYLON.MeshBuilder.CreateBox("trigger", {height: 1, width:8, depth:8}, this.scene);
-          trigger.position = new BABYLON.Vector3(hole.position.x, hole.position.y-5, hole.position.z);
+          console.log(mesh.name);
+          var yoffset = mesh.name == "ground" ? 5 : 3;
+          trigger.position = new BABYLON.Vector3(hole.position.x, hole.position.y-yoffset, hole.position.z);
           trigger.actionManager = new BABYLON.ActionManager(this.scene);
 
           trigger.actionManager.registerAction(new BABYLON.ExecuteCodeAction({

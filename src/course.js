@@ -31,7 +31,35 @@ function Course() {
             }
         },
             */
+        {
+            name:'Monkey Around',
+            par:3,
+            strokes:0,
+            complete:false,
+            build:function(golf) {
+                golf.addBall(30,2,160);
+                golf.addGround(100,0,100,{bumpers:"0000"});
+                golf.addGround(160,0,100,{bumpers:"0000"});
+                golf.addCorner(40,0,160);
+                golf.addCorner(40,0,100,{rotation:-Math.PI/2});
+                golf.addCorner(100,0,160,{rotation:Math.PI/2});
+                golf.addCorner(160,0,160);
+                golf.addCorner(220,0,160,{rotation:Math.PI/2});
+                golf.addCorner(220,0,100,{rotation:Math.PI});
+                golf.addCorner(100,0,40,{rotation:-Math.PI/2});
+                golf.addCorner(160,0,40,{rotation:Math.PI});
+                golf.addBarrier(130,0,144,{shape:"circle",size:30});
+                golf.addBarrier(130,0,161,{shape:"box",size:30});
+                golf.addBarrier(80,0,130,{shape:"bump",size:40});
+                golf.addBarrier(80,2,130,{shape:"circle",size:8});
+                var m = golf.addBarrier(185,0,130,{shape:"bump",size:40});
+                golf.addBarrier(120,0,100,{shape:"circle",size:10});
+                golf.addBarrier(140,0,100,{shape:"circle",size:10});
+                golf.addBumper(130,0,50,{half:true})
 
+                golf.addHole(m);
+            }
+        },
 
         {
             name:'Bird\'s Eye',
