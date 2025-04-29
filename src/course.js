@@ -31,8 +31,63 @@ function Course() {
             }
         },
             */
-        
+        {
+            name:'Cat Nap',
+            par:2,
+            strokes:0,
+            complete:false,
+            build:function(golf) {
+                golf.addBall(60,16,100);
+                golf.addGround(15,12,100,{bumpers:"1011"});
+                golf.addGround(60,12,100,{bumpers:"1010", mesh:"narrow"});
+                golf.addCorner(105,12,100,{rotation:Math.PI});
 
+
+
+                golf.addBumper(90,12,130, {half:true});
+
+                golf.addGround(30,5,160,{bumpers:"1010", mesh:"narrow"});
+                golf.addGround(75,5,160,{bumpers:"1010"});
+                //golf.addCorner(0,0,100,{rotation:-Math.PI/2});
+                //golf.addCorner(90,0,100,{rotation:Math.PI});
+
+
+
+
+                //golf.addBumper(90,3,195.5);
+                //golf.addBumper(75,-5,195.5, {half:true});
+
+                var t = golf.addTunnel(100, 5, 159,{rotation:Math.PI/2});
+                golf.addTunnel(120,1,191, {target: t});
+                var t2 = golf.addTunnel(0, 5, 130,{rotation:-Math.PI});
+                golf.addTunnel(20, 5, 159,{rotation:-Math.PI/2, target: t2});
+
+
+
+                golf.addGround(0,-1,159,{bumpers:"0101", mesh:"narrow", rotation:{x:.2}});
+                golf.addGround(120,6,159,{bumpers:"0100", mesh:"narrow", rotation:{x:.2}});
+                //golf.addBumper(60,0,165,{rotation:{x:0,y:Math.PI/2,z:0}});
+
+                golf.addCorner(15,-7,216);
+                golf.addGround(60,-7,216,{bumpers:"1010", mesh:"narrow"});
+                var m = golf.addGround(105,-7,216,{bumpers:"1100"});
+                //golf.addGround(88,-4.5,216,{bumpers:"1010", rotation:{x:0,y:0,z:.25}});
+                golf.addHole(m);
+            }
+        },
+        {
+            name:'Baby Bear',
+            par:1,
+            strokes:0,
+            complete:false,
+            build:function(golf) {
+                golf.addBall(0,2,80);
+                golf.addGround(0,0,100,{bumpers:"0111", mesh:"deformed1"});
+
+                var m = golf.addGround(0,0,145,{bumpers:"1101", mesh:"short"});
+                golf.addHole(m);
+            }
+        },
         {
             name:'Bird\'s Eye',
             par:2,
