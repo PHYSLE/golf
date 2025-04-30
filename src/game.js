@@ -116,10 +116,6 @@ function Game() {
           this.camera.minZ = 0.030;
           this.camera.panningInertia = 0.5
 
-
-
-          
-
           // create materials
           /*
           this.materials.sky = new BABYLON.StandardMaterial("skymat", this.scene);
@@ -628,7 +624,7 @@ function Game() {
       addTunnel(x,y,z,options) {
         //@TODO - use  CSG2 here
           const box = BABYLON.MeshBuilder.CreateBox("box", {
-              width: this.globals.tileSize+1,
+              width: options.half ? this.globals.tileSize/2+1 : this.globals.tileSize+1,
               height: this.globals.bumperHeight,
               depth: 10}, this.scene);
           box.position = new BABYLON.Vector3(x, y, z);
@@ -666,9 +662,9 @@ function Game() {
 
           if (options && options.target) {
               let ball = this.ball;
-              const trigger = BABYLON.MeshBuilder.CreateBox("trigger", {height: 8, width:8, depth:2}, this.scene);
+              const trigger = BABYLON.MeshBuilder.CreateBox("trigger", {height: 8, width:8, depth:1}, this.scene);
               trigger.rotation.copyFrom(rotation);
-              let offset = new BABYLON.Vector3(4 * Math.sin(rotation.y).toFixed(3), 1, 4 * Math.cos(rotation.y).toFixed(3));
+              let offset = new BABYLON.Vector3(2 * Math.sin(rotation.y).toFixed(3), 1, 2 * Math.cos(rotation.y).toFixed(3));
               trigger.position = new BABYLON.Vector3(tunnel.position.x, tunnel.position.y, tunnel.position.z).add(offset);
               trigger.material = this.materials.shadow;
               trigger.actionManager = new BABYLON.ActionManager(this.scene);
@@ -708,6 +704,14 @@ function Game() {
                     },
                   ));
                   this.disposables.push(trigger);
+                }
+                else {
+                    const shadow = BABYLON.MeshBuilder.CreateBox("shadow", {height: 8, width:8, depth:1}, this.scene);
+                    shadow.rotation.copyFrom(rotation);
+                    let offset = new BABYLON.Vector3(2 * Math.sin(rotation.y).toFixed(3), 1, 2 * Math.cos(rotation.y).toFixed(3));
+                    shadow.position = new BABYLON.Vector3(tunnel.position.x, tunnel.position.y, tunnel.position.z).add(offset);
+                    shadow.material = this.materials.shadow; 
+                    this.disposables.push(shadow);
                 }
 
           this.disposables.push(tunnel);

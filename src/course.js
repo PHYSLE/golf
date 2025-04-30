@@ -31,50 +31,7 @@ function Course() {
             }
         },
             */
-        {
-            name:'Cat Nap',
-            par:2,
-            strokes:0,
-            complete:false,
-            build:function(golf) {
-                golf.addBall(60,16,100);
-                golf.addGround(15,12,100,{bumpers:"1011"});
-                golf.addGround(60,12,100,{bumpers:"1010", mesh:"narrow"});
-                golf.addCorner(105,12,100,{rotation:Math.PI});
-
-
-
-                golf.addBumper(90,12,130, {half:true});
-
-                golf.addGround(30,5,160,{bumpers:"1010", mesh:"narrow"});
-                golf.addGround(75,5,160,{bumpers:"1010"});
-                //golf.addCorner(0,0,100,{rotation:-Math.PI/2});
-                //golf.addCorner(90,0,100,{rotation:Math.PI});
-
-
-
-
-                //golf.addBumper(90,3,195.5);
-                //golf.addBumper(75,-5,195.5, {half:true});
-
-                var t = golf.addTunnel(100, 5, 159,{rotation:Math.PI/2});
-                golf.addTunnel(120,1,191, {target: t});
-                var t2 = golf.addTunnel(0, 5, 130,{rotation:-Math.PI});
-                golf.addTunnel(20, 5, 159,{rotation:-Math.PI/2, target: t2});
-
-
-
-                golf.addGround(0,-1,159,{bumpers:"0101", mesh:"narrow", rotation:{x:.2}});
-                golf.addGround(120,6,159,{bumpers:"0100", mesh:"narrow", rotation:{x:.2}});
-                //golf.addBumper(60,0,165,{rotation:{x:0,y:Math.PI/2,z:0}});
-
-                golf.addCorner(15,-7,216);
-                golf.addGround(60,-7,216,{bumpers:"1010", mesh:"narrow"});
-                var m = golf.addGround(105,-7,216,{bumpers:"1100"});
-                //golf.addGround(88,-4.5,216,{bumpers:"1010", rotation:{x:0,y:0,z:.25}});
-                golf.addHole(m);
-            }
-        },
+        
         {
             name:'Baby Bear',
             par:1,
@@ -307,6 +264,42 @@ function Course() {
 
                 golf.addBumper(10,15,190);
                 golf.addBumper(55,15,190,{half:true});
+                golf.addHole(m);
+            }
+        },
+        {
+            name:'Butterfly House',
+            par:4,
+            strokes:0,
+            complete:false,
+            build:function(golf) {
+                golf.addBall(16,16,100);
+
+                //golf.addBall(60,16,160);
+                golf.addGround(15,12,100,{bumpers:"1011"});
+                golf.addGround(60,12,100,{bumpers:"1010", mesh:"narrow"});
+                golf.addCorner(105,12,100,{rotation:Math.PI});
+
+                golf.addBumper(90,12,130, {half:true});
+
+                golf.addGround(30,2,160,{bumpers:"1010", mesh:"narrow"});
+                golf.addGround(75,2,160,{bumpers:"1010"});
+
+                var t = golf.addTunnel(100.5, 2, 159,{rotation:Math.PI/2});
+                golf.addTunnel(120,2,185.5, {target: t, half:true});
+                var t2 = golf.addTunnel(0, 2, 132,{rotation:-Math.PI, half:true});
+                golf.addTunnel(19.5, 2, 159,{rotation:-Math.PI/2, target: t2});
+
+
+                golf.addGround(0,-4,159,{bumpers:"0101", mesh:"narrow", rotation:{x:.2}});
+                golf.addGround(120,6,159,{bumpers:"0101", mesh:"narrow", rotation:{x:.2}});
+
+                golf.addCorner(15,-10,218);
+                golf.addBumper(45,-10,190);
+                golf.addBumper(105,-10,190);
+                golf.addGround(60,-10,218,{bumpers:"1010", mesh:"narrow"});
+                var m = golf.addGround(105,-10,218,{bumpers:"1110"});
+
                 golf.addHole(m);
             }
         },
