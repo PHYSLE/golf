@@ -8,19 +8,11 @@ import "@babylonjs/loaders/glTF";
 function Game() {
   const game = {
       globals: {
-          /*
-          damping: .34,
-          impulseModifier: 10,
-          maxImpulse: 120,
-          aimLineModifier: 1.2
-          */
-          restitution: .55,       // determine how bouncy the ball is
-          damping: .64,           // reduce velocity of the ball
-          friction: .5,          // the friction of the ball
-          gravity: -9.8,          // gravity of scene
+          physicsTimeStep: .03,    // the fixed time step for the physics engine       
+          gravity: -9.8,          // gravity of the physics engine   
           impulseModifier: 5,     // velocity modifier of impulse per ms of swing
           maxImpulse: 230,        // max velocity of impulse
-          tileSize: 60,           // size of grid tile
+          tileSize: 60,           // size of a standard tile
           bumperHeight: 15,       // height of bumpers
           aimLineSegments: 16,    // number of line segments in aim line
           aimLineModifier: 1.3,   // divisor of line per swing impulse
@@ -31,7 +23,11 @@ function Game() {
       scene: null,
       camera: null,
       ball: {
+          mass:2,
           diameter: 4,
+          friction: .5, 
+          damping: .64,           // reduces velocity of the ball
+          restitution: .55,       // determines how bouncy the ball is
           mesh: null,
           body: null,
           events: new EventTarget(),
@@ -87,8 +83,9 @@ function Game() {
           await BABYLON.InitializeCSG2Async();
           
           // enable Havok
-          const havok = await HavokPhysics();
-          this.scene.enablePhysics(new BABYLON.Vector3(0, this.globals.gravity, 0), new BABYLON.HavokPlugin(true, havok));
+          const havok = await new HavokPhysics();
+          this.scene.enablePhysics(new BABYLON.Vector3(0, this.globals.gravity, 0), new BABYLON.HavokPlugin(false, havok));
+          this.scene.getPhysicsEngine().setTimeStep(this.globals.physicsTimeStep);
 
           //const light1 = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), this.scene);
           const light1 = new BABYLON.DirectionalLight("light", new BABYLON.Vector3(0, -5, 5), this.scene);
@@ -284,10 +281,10 @@ function Game() {
           this.strikePosition = new BABYLON.Vector3(x, y, z);
 
           const aggregate = new BABYLON.PhysicsAggregate(ball, BABYLON.PhysicsShapeType.SPHERE, {
-              mass: 2,
-              restitution: this.globals.restitution,
-              friction: this.globals.friction }, this.scene);
-          aggregate.body.setLinearDamping(game.globals.damping);
+              mass: this.ball.mass,
+              restitution: this.ball.restitution,
+              friction: this.ball.friction }, this.scene);
+          aggregate.body.setLinearDamping(this.ball.damping);
           aggregate.body.disablePreStep = false; // disablePreStep allows moving the ball manually
           this.ball.body = aggregate.body;
           for(let i=0; i<this.shadows.length; i++) {
@@ -604,7 +601,7 @@ function Game() {
           mesh.dispose(); // delete the original mesh
 
           const trigger = BABYLON.MeshBuilder.CreateBox("trigger", {height: 1, width:8, depth:8}, this.scene);
-          console.log(mesh.name);
+          //console.log(mesh.name);
           var yoffset = mesh.name == "ground" ? 5 : 3;
           trigger.position = new BABYLON.Vector3(hole.position.x, hole.position.y-yoffset, hole.position.z);
           trigger.actionManager = new BABYLON.ActionManager(this.scene);
