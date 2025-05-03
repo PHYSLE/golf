@@ -42,8 +42,8 @@ function Course() {
 
             }
         },
-          */  
-        
+          */
+
         {
             name:'Baby Bear',
             par:1,
@@ -208,7 +208,7 @@ function Course() {
 
                 golf.addGround(-30,-6,232.5,{mesh:"narrow",bumpers:"0101"});
                 golf.addCorner(-15,-6,175,{rotation:-Math.PI/2});
-                
+
                 var t = golf.addTunnel(10.5,-6,175,{rotation:-Math.PI/2})
                 golf.addTunnel(-10.5,-6,175,{rotation:Math.PI/2,target:t, exitVelocity:40})
                 var m = golf.addGround(45,-6,175,{bumpers:"1110"})
@@ -379,7 +379,10 @@ function Course() {
                 golf.addCorner(100,0,40,{rotation:-Math.PI/2});
                 golf.addCorner(160,0,40,{rotation:Math.PI});
                 //golf.addBarrier(130,0,144,{shape:"circle",size:30});
-                //golf.addBarrier(130,0,161,{shape:"box",size:30});
+                golf.addBarrier(40,0,40,{shape:"box",size:61});
+                golf.addBarrier(40,-7.5,40,{shape:"box",size:61});
+                golf.addBarrier(220,0,40,{shape:"box",size:61});
+                golf.addBarrier(220,-7.5,40,{shape:"box",size:61});
                 golf.addBarrier(80,0,130,{shape:"bump",size:40});
                 //golf.addBarrier(80,2,130,{shape:"circle",size:8});
                 var m = golf.addBarrier(185,0,130,{shape:"bump",size:40});
