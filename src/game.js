@@ -125,13 +125,35 @@ function Game() {
           skybox.material = this.materials.sky;
           skybox.infiniteDistance = true;
           */
+          let roughness = .6
 
           this.materials.green = new BABYLON.PBRMaterial('greenmat',this.scene);
           this.materials.green.albedoTexture = new BABYLON.Texture('./assets/green.jpg',this.scene);
           this.materials.green.albedoTexture.uScale = 1;
           this.materials.green.albedoTexture.vScale = 1;
           this.materials.green.metallic = 0;
-          this.materials.green.roughness = .6;
+          this.materials.green.roughness = roughness;
+
+          this.materials.greenQuarter = new BABYLON.PBRMaterial('greenmat',this.scene);
+          this.materials.greenQuarter.albedoTexture = new BABYLON.Texture('./assets/green.jpg',this.scene);
+          this.materials.greenQuarter.albedoTexture.uScale = .5;
+          this.materials.greenQuarter.albedoTexture.vScale = .5;
+          this.materials.greenQuarter.metallic = 0;
+          this.materials.greenQuarter.roughness = roughness;
+          
+          this.materials.greenShort = new BABYLON.PBRMaterial('greenmat',this.scene);
+          this.materials.greenShort.albedoTexture = new BABYLON.Texture('./assets/green.jpg',this.scene);
+          this.materials.greenShort.albedoTexture.uScale = .5;
+          this.materials.greenShort.albedoTexture.vScale = 1;
+          this.materials.greenShort.metallic = 0;
+          this.materials.greenShort.roughness = roughness;
+          
+          this.materials.greenNarrow = new BABYLON.PBRMaterial('greenmat',this.scene);
+          this.materials.greenNarrow.albedoTexture = new BABYLON.Texture('./assets/green.jpg',this.scene);
+          this.materials.greenNarrow.albedoTexture.uScale = 1;
+          this.materials.greenNarrow.albedoTexture.vScale = .5;
+          this.materials.greenNarrow.metallic = 0;
+          this.materials.greenNarrow.roughness = roughness;
           //this.materials.green.diffuseColor = new BABYLON.Color3(.6, .8, .6);
 
           this.materials.bumper = new BABYLON.StandardMaterial("bumpermat");
@@ -314,15 +336,23 @@ function Game() {
       addGround: function(x, y, z, options={}) {
           var size = { width: this.globals.tileSize, height: this.globals.tileSize }
           var internal = ["full","narrow","short","quarter"]
+          var material = this.materials.green;
 
           if (!options.mesh) {
               options.mesh = "full";
           }
-          if (options.mesh == "narrow" || options.mesh == "quarter") {
+          if (options.mesh == "narrow") {
               size.width = this.globals.tileSize/2;
+              material = this.materials.greenNarrow;
           }
-          if (options.mesh == "short" || options.mesh == "quarter") {
+          else if (options.mesh == "short") {
               size.height = this.globals.tileSize/2;
+              material = this.materials.greenShort;
+          }
+          else if (options.mesh == "quarter") {
+              size.width = this.globals.tileSize/2;
+              size.height = this.globals.tileSize/2;
+              material = this.materials.greenQuarter;
           }
 
           let ground = null;
@@ -340,7 +370,7 @@ function Game() {
               shape = BABYLON.PhysicsShapeType.MESH;
           }
 
-          ground.material = this.materials.green;
+          ground.material = material;
           ground.receiveShadows = true;
           const aggregate = new BABYLON.PhysicsAggregate(ground, shape, {
               mass: 0,
