@@ -86,6 +86,7 @@ function Game() {
           const havok = await new HavokPhysics();
           this.scene.enablePhysics(new BABYLON.Vector3(0, this.globals.gravity, 0), new BABYLON.HavokPlugin(false, havok));
           this.scene.getPhysicsEngine().setTimeStep(this.globals.physicsTimeStep);
+          this.scene.clearColor = new BABYLON.Color3(0.15, 0.35, 0.55);
 
           //const light1 = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), this.scene);
           const light1 = new BABYLON.DirectionalLight("light", new BABYLON.Vector3(0, -5, 5), this.scene);
@@ -111,7 +112,7 @@ function Game() {
           this.camera.allowUpsideDown = false;
           this.camera.lowerRadiusLimit = 0.01;
           this.camera.minZ = 0.030;
-          this.camera.panningInertia = 0.5
+          this.camera.panningInertia = 0.5;
 
           // create materials
           /*
