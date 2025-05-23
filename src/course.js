@@ -208,10 +208,12 @@ function Course() {
 
                 golf.addGround(-30,-6,232.5,{mesh:"narrow",bumpers:"0101"});
                 golf.addCorner(-15,-6,175,{rotation:-Math.PI/2});
+                golf.addBarrier(0,-6,190, {shape:"box",size:31})
 
-                var t = golf.addTunnel(10.5,-6,175,{rotation:-Math.PI/2})
-                golf.addTunnel(-10.5,-6,175,{rotation:Math.PI/2,target:t, exitVelocity:40})
-                var m = golf.addGround(45,-6,175,{bumpers:"1110"})
+                var t = golf.addTunnel(10.5,-6,160,{rotation:-Math.PI/2, half:true})
+                golf.addTunnel(-10.5,-6,160,{rotation:Math.PI/2,target:t, half:true, exitVelocity:40})
+                golf.addGround(45,-6,190,{mesh:"short",bumpers:"1100"})
+                var m = golf.addGround(45,-6,160,{mesh:"short",bumpers:"0110"})
 
                 golf.addHole(m);
             }
