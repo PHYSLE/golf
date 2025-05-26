@@ -86,7 +86,8 @@ function Game() {
           const havok = await new HavokPhysics();
           this.scene.enablePhysics(new BABYLON.Vector3(0, this.globals.gravity, 0), new BABYLON.HavokPlugin(false, havok));
           this.scene.getPhysicsEngine().setTimeStep(this.globals.physicsTimeStep);
-          this.scene.clearColor = new BABYLON.Color3(0.15, 0.35, 0.55);
+          this.scene.clearColor = new BABYLON.Color3(0.15, 0.35, 0.45);
+         
 
           //const light1 = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), this.scene);
           const light1 = new BABYLON.DirectionalLight("light", new BABYLON.Vector3(0, -5, 5), this.scene);
@@ -115,21 +116,27 @@ function Game() {
           this.camera.panningInertia = 0.5;
 
           // create materials
-          /*
+/*
+          // https://doc.babylonjs.com/features/featuresDeepDive/environment/skybox#ground-projection
           this.materials.sky = new BABYLON.StandardMaterial("skymat", this.scene);
           this.materials.sky.backFaceCulling = false;
           this.materials.sky.disableLighting = true;
-          this.materials.sky.reflectionTexture = new BABYLON.CubeTexture("/assets/sky/skybox1", this.scene);
+          this.materials.sky.reflectionTexture = new BABYLON.CubeTexture("/assets/sky/skybox2", this.scene);
           this.materials.sky.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+            
+          this.materials.sky.enableGroundProjection = true;
+          this.materials.sky.projectedGroundRadius = 20;
+          this.materials.sky.projectedGroundHeight = 3;
 
-          const skybox = BABYLON.MeshBuilder.CreateBox("skyBox", { size: 1000.0 }, this.scene);
+          const skybox = BABYLON.MeshBuilder.CreateBox("skyBox", { size: 1000.0, sideOrientation: BABYLON.Mesh.BACKSIDE }, this.scene);
           skybox.material = this.materials.sky;
           skybox.infiniteDistance = true;
-          */
-          let roughness = .6
+                  */
+          let roughness = .9
 
           this.materials.green = new BABYLON.PBRMaterial('greenmat',this.scene);
           this.materials.green.albedoTexture = new BABYLON.Texture('./assets/green.jpg',this.scene);
+          //this.materials.green.bumpTexture = new BABYLON.Texture('./assets/green-normal.jpg',this.scene);
           this.materials.green.albedoTexture.uScale = 1;
           this.materials.green.albedoTexture.vScale = 1;
           this.materials.green.metallic = 0;
@@ -157,8 +164,15 @@ function Game() {
           this.materials.greenNarrow.roughness = roughness;
           //this.materials.green.diffuseColor = new BABYLON.Color3(.6, .8, .6);
 
-          this.materials.bumper = new BABYLON.StandardMaterial("bumpermat");
-          this.materials.bumper.diffuseColor = new BABYLON.Color3(.15, .38, .1);
+          //this.materials.bumper = new BABYLON.StandardMaterial("bumpermat");
+          //this.materials.bumper.diffuseColor = new BABYLON.Color3(.15, .38, .1);
+          this.materials.bumper = new BABYLON.PBRMaterial('bumpermat',this.scene);
+          this.materials.bumper.albedoTexture = new BABYLON.Texture('./assets/bumper.jpg',this.scene);
+          this.materials.bumper.albedoTexture.uScale = 1;
+          this.materials.bumper.albedoTexture.vScale = 1;
+          this.materials.bumper.albedoColor = new BABYLON.Color3(1, 1, 1);
+          this.materials.bumper.metallic = .7;
+          this.materials.bumper.roughness = .6;
 
           this.materials.shadow = new BABYLON.StandardMaterial("bumpermat");
           this.materials.shadow.diffuseColor = new BABYLON.Color3(0, .1, 0);
