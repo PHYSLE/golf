@@ -26,7 +26,7 @@ function Game() {
           mass:2,
           diameter: 4,
           friction: .5, 
-          damping: .64,           // reduces velocity of the ball
+          damping: .62,           // reduces velocity of the ball
           restitution: .55,       // determines how bouncy the ball is
           mesh: null,
           body: null,
