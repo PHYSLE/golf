@@ -1,6 +1,6 @@
 function Course() {
     return {
-        current: 9,
+        current: 0,
         mulligans: 2,
         get currentHole() {
             return this.holes[this.current-1]
@@ -43,7 +43,7 @@ function Course() {
             }
         },
           */
-
+    
         {
             name:'Baby Bear',
             par:1,
@@ -253,7 +253,7 @@ function Course() {
         },
         {
             name:'Caterpillar',
-            par:4,
+            par:5,
             strokes:0,
             complete:false,
             build:function(golf) {
@@ -374,7 +374,7 @@ function Course() {
         },
         {
             name:'Monkey Around',
-            par:3,
+            par:4,
             strokes:0,
             complete:false,
             build:function(golf) {
@@ -467,6 +467,44 @@ function Course() {
                 golf.addCorner(0,12,216);
                 golf.addGround(45,12,216,{bumpers:"1010", mesh:"narrow"});
                 golf.addCorner(90,12,216,{rotation:Math.PI/2});
+                golf.addHole(m);
+            }
+        },
+        {
+            name:'Inch Worm',
+            par:3,
+            strokes:0,
+            complete:false,
+            build:function(golf) {
+                golf.addBall(0,2,20);
+                //golf.addBall(20,2,220);
+                golf.addGround(0,0,40,{bumpers:"0111", mesh:"deformed1"});
+                golf.addGround(0,0,100,{bumpers:"0101", mesh:"deformed4"});
+                golf.addBumper(0,-7.5,160,{rotation:{x:0,y:Math.PI/2,z:0}});
+                golf.addBumper(-1,-7.5,160,{rotation:{x:0,y:Math.PI/2,z:0}});
+                golf.addBumper(1,-7.5,160,{rotation:{x:0,y:Math.PI/2,z:0}});
+
+                golf.addGround(0,-6,159,{bumpers:"0101", rotation:{x:.2}});
+                golf.addGround(0,-6,279,{bumpers:"0101", rotation:{x:.2}});
+                golf.addGround(0,-12,322,{bumpers:"0101", mesh:"short"});
+
+                golf.addBumper(0,-11.5,296,{rotation:{x:0,y:Math.PI/2,z:0}});
+                golf.addBumper(-1,-11.5,296,{rotation:{x:0,y:Math.PI/2,z:0}});
+                golf.addBumper(1,-11.5,296,{rotation:{x:0,y:Math.PI/2,z:0}});
+
+                golf.addBumper(0,-4,334,{rotation:{x:0,x:Math.PI/2,z:0}});
+                var t1 = golf.addTunnel(15,-12,333,{ half:true})
+                var t2 = golf.addTunnel(-15,-12,333,{ half:true})
+
+                golf.addBumper(0,-1.4,194.5,{rotation:{x:0,x:Math.PI/2,z:0}});
+                golf.addBumper(0,-2,194.5,{rotation:{x:0,x:Math.PI/2,z:0}});
+                golf.addBumper(0,-3,194.5,{rotation:{x:0,x:Math.PI/2,z:0}});
+                golf.addBumper(0,-4,194.5,{rotation:{x:0,x:Math.PI/2,z:0}});
+
+                golf.addTunnel(15,-11.8,192,{ half:true, target:t1, exitVelocity:40})
+                golf.addTunnel(-15,-11.8,192,{ half:true, target:t2, exitVelocity:40})
+                
+                var m = golf.addGround(0,0,220,{bumpers:"0101"});
                 golf.addHole(m);
             }
         },
