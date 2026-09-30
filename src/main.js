@@ -18,6 +18,7 @@ UI.shotButtonY = rect.top + UI.shotButtonRadius;
 UI.shotButtonTouch = false;
 UI.useTouchEvents = false;
 UI.persistence = {current:[],best:[],mulligans:0}
+UI.credits = false;
 
 UI.getCookie = function(name) {
     var nameEQ = "_phy_mp=";
@@ -292,6 +293,27 @@ document.getElementById('back').addEventListener("click", function() {
     }
 });
 
+document.getElementById('about').addEventListener("click", function() {
+    UI.credits = !UI.credits;
+    if (UI.credits ) {
+        const scoreTable = document.getElementById('scoreTable');
+        scoreTable.innerHTML = 
+        `<tr><td style="text-align:center; padding: 43px 0">
+            <a href="https://physle.com" target="_blank"><img src="assets/physle-logo-black.png" alt="PHYSLE"/></a>
+            <a href="https://www.havok.com" target="_blank"><img src="assets/havok-logo-black.png" alt="Havok"/></a>
+            <a href="https://www.babylonjs.com" target="_blank"><img src="assets/babylon-logo-black.png" alt="Babylon.js"/></a>
+            <a id="thanks"><br /><br />Thanks for playing!</a>
+        </td></tr>` ;
+        document.getElementById('thanks').addEventListener("click", function() {
+            UI.updateScoreCard(course);
+            UI.credits = false;
+        });
+    }
+    else {
+        UI.updateScoreCard(course);
+    }
+});
+
 document.getElementById('clear').addEventListener("click", function() {
     if (confirm('Clear all saved data?')) {
         UI.setCookie(true,true);
@@ -304,6 +326,9 @@ document.getElementById('x').addEventListener("click", function() {
     UI.scoreCard.style.display = 'none';
     UI.shotButton.style.display = 'block';
 });
+
+
+
 
 
 })
